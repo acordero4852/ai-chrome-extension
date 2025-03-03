@@ -152,4 +152,35 @@ class AICompletion {
       }
     }
   }
+
+  handleFocus(event) {
+    this.currentElement = event.target;
+    this.cursorPosition = this.currentElement.selectionStart;
+    if (event.terget.value && this.suggestion) {
+      this.overlay.show(
+        this.currentElement,
+        this.suggestion,
+        this.cursorPosition
+      );
+    }
+  }
+
+  handleBlur() {
+    this.currentElement = null;
+    this.overlay.hide();
+  }
+
+  setupEventListeners() {
+    document.addEventListener("input", this.handleInput.bind(this), true);
+    document.addEventListener("keydown", this.handleKeyDown.bind(this), true);
+    document.addEventListener("focus", this.handleFocus.bind(this), true);
+    document.addEventListener("blur", this.handleBlur.bind(this), true);
+    document.addEventListener(
+      "selectionchange",
+      this.handleSelectionChange.bind(this),
+      true
+    );
+  }
 }
+
+new AICompletion();
